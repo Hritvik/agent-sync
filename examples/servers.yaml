@@ -1,0 +1,98 @@
+# Example MCP server registry for mcp-sync
+# This file defines your canonical MCP server configurations
+
+version: 1
+
+defaults:
+  enabled: true
+
+servers:
+  # HTTP-based documentation server
+  context7:
+    description: Current library and framework documentation
+    transport: http
+    url: https://mcp.context7.com/mcp
+    headers:
+      Authorization:
+        from_env: CONTEXT7_TOKEN
+    enabled: true
+    clients:
+      include:
+        - codex
+        - claude
+        - cursor
+        - vscode
+    metadata:
+      homepage: https://context7.com
+      tags:
+        - documentation
+        - reference
+
+  # Local stdio server for browser automation
+  playwright:
+    description: Browser automation and testing
+    transport: stdio
+    command: npx
+    args:
+      - -y
+      - "@playwright/mcp@latest"
+    enabled: true
+    metadata:
+      homepage: https://playwright.dev
+      tags:
+        - browser
+        - automation
+        - testing
+
+  # GitHub integration via Docker
+  github:
+    description: GitHub repositories, issues, and pull requests
+    transport: stdio
+    command: docker
+    args:
+      - run
+      - --rm
+      - -i
+      - -e
+      - GITHUB_PERSONAL_ACCESS_TOKEN
+      - ghcr.io/github/github-mcp-server
+    env:
+      GITHUB_PERSONAL_ACCESS_TOKEN:
+        from_env: GITHUB_PERSONAL_ACCESS_TOKEN
+    enabled: true
+    metadata:
+      homepage: https://github.com
+      tags:
+        - github
+        - version-control
+
+  # PostgreSQL database access
+  postgres:
+    description: PostgreSQL database queries and management
+    transport: stdio
+    command: npx
+    args:
+      - -y
+      - "@modelcontextprotocol/server-postgres"
+      - "postgresql://user:password@localhost:5432/mydb"
+    enabled: false
+    metadata:
+      homepage: https://www.postgresql.org
+      tags:
+        - database
+        - postgresql
+
+  # Filesystem access (use with caution)
+  filesystem:
+    description: Local filesystem access for reading and writing files
+    transport: stdio
+    command: npx
+    args:
+      - -y
+      - "@modelcontextprotocol/server-filesystem"
+      - "/path/to/allowed/directory"
+    enabled: false
+    metadata:
+      tags:
+        - filesystem
+        - local

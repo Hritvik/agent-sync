@@ -1,0 +1,38 @@
+# Example profile definitions for mcp-sync
+# Profiles allow you to group servers for different contexts
+
+profiles:
+  # Default profile - commonly used servers
+  default:
+    servers:
+      - context7
+      - playwright
+
+  # Work profile - servers for professional development
+  work:
+    servers:
+      - context7
+      - github
+      - playwright
+
+  # Personal profile - servers for personal projects
+  personal:
+    servers:
+      - context7
+      - playwright
+      - filesystem
+
+  # Database profile - servers for database work
+  database:
+    servers:
+      - context7
+      - postgres
+
+  # Full profile - all available servers
+  full:
+    servers:
+      - context7
+      - playwright
+      - github
+      - postgres
+      - filesystem
